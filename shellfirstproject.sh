@@ -1,15 +1,13 @@
-#!/bin/bash
-
+#set -x
 #Spring boot example project
 #Author: Swapnil Adivarekar
 #Date: 07-07-2025
-
 function InstallPackage(){
         packagename=${1}
         apt-get install -y ${packagename}
         if [[ $? != 0 ]]
         then
-                echo "Unable to install ${packagename}"
+                echo -e "\033[0;31mUnable to install ${packagename}"
                 exit 1
                 fi
 }
@@ -18,21 +16,21 @@ function MavenTarget(){
         mvn ${maveninp}
         if [[ $? != 0 ]]
         then
-                echo "Unable to perform maven ${maveninp}"
+                echo -e "\033[0;31mUnable to perform maven ${maveninp}"
                 exit 1
                 fi
 }
 #check is user is a root user
 if [[ $UID != 0 ]]
 then
-        echo "User is not a root user"
+        echo -e "\033[0;31mUser is not a root user"
         exit 1
 fi
 #updating a repository
 apt-get update > /dev/null
 if [[ $? != 0 ]]
 then
-        echo "Repository not updated successfully"
+        echo -e "\033[0;31mRepository not update successfully"
         exit 1
 fi
 ##installing maven and tomcat
@@ -40,5 +38,5 @@ InstallPackage maven
 MavenTarget test
 MavenTarget package
 InstallPackage tomcat9
-##cp -rf target/hello-world-0.0.1-SNAPSHOT.war /var/lib/tomcat9/webapps/app.war
 
+cp -rf /projects/spring-boot-war-example/target /var/lib/tomcat9/webapps/app.war
