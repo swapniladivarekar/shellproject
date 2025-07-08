@@ -32,7 +32,7 @@ fi
 apt-get update > /dev/null
 if [[ $? != 0 ]]
 then
-        echo "Repository not update successfully"
+        echo "Repository not updated successfully"
         exit 1
 fi
 ##installing maven and tomcat
